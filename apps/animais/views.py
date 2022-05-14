@@ -1,5 +1,9 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from .models import Animais
 
 def index(request):
-    return HttpResponse()
+    caracteristicas = Animais.objects.all()
+
+    context = {'caracteristicas':caracteristicas}
+
+    return render(request, 'index.html', context)
