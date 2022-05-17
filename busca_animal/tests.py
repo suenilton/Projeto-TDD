@@ -2,12 +2,18 @@ from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
+from animais.models import Animais
 
 class AnimaisTestCase(LiveServerTestCase):
     
     def setUp(self):
         self.browser = webdriver.Chrome('D:\Suenilton\Pessoal\Projetos Python\Projeto TDD\chromedriver.exe')
-
+        self.animal = Animais.objects.create(
+            nome_animal = 'Leão',
+            predador = 'Sim',
+            venenoso = 'Não',
+            domestico = 'Não'
+        )
     def tearDown(self):
         self.browser.quit()
 
@@ -28,7 +34,7 @@ class AnimaisTestCase(LiveServerTestCase):
         self.assertEqual(buscar_animal_input.get_attribute('placeholder'),'Exemplo: leão')
         # Ele pesquisa por leão e clica no botão pesquisar.
         buscar_animal_input.send_keys('leão')
-        time.sleep(0)
+        time.sleep(2)
         self.browser.find_element(By.CSS_SELECTOR, 'form button').click()
         # O site exibe quatro caracteristicas do animal pesquisado.
         caracteristicas = self.browser.find_elements(By.CSS_SELECTOR, 'div.result-description')

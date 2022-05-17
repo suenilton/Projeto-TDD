@@ -2,7 +2,12 @@ from django.shortcuts import render, redirect
 from .models import Animais
 
 def index(request):
-    caracteristicas = Animais.objects.all()
+    caracteristicas = None
+
+    if 'buscar' in request.GET:
+        animais = Animais.objects.all()
+        animal_pesquisado = request.GET['buscar']
+        caracteristicas = animais.filter(nome_animal__icontains=animal_pesquisado)
 
     context = {'caracteristicas':caracteristicas}
 
